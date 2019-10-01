@@ -1,76 +1,82 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <h1>Alo</h1>
-          
+  <div>
+    <Navbar />
+     <input type="button" value="Cerrar Sesion" class="btn btn-danger" @click="logout">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-6">
+          <div class="collapse multi-collapse" id="userList">
+            <div class="card card-body">
+              <UserList
+                @mouse-over-user="mouseOverUser"
+                @mouse-left-user="mouseLeftUser"
+                :users="users"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- /.col-6 -->
+
+        <div class="col-6">
+          <div class="collapse multi-collapse" id="mapa">
+            <div class="card card-body map">
+              <Map :users="users" />
+            </div>
+          </div>
+        </div>
+        <!-- /.col-6 -->
       </div>
-      <!-- /.col-md-12 -->
+      <!-- /.row -->
     </div>
-    <!-- /.row -->
-    <div class="row">
-      <div class="col-6">
-       
-        <UserList 
-          @mouse-over-user="mouseOverUser"
-          @mouse-left-user="mouseLeftUser"
-          :users="users"
-        />
-      
-      </div>
-      <!-- /.col-6 -->
-      <div class="col-6">
+    <!-- /.container -->
 
-       
-
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="collapse multi-collapse" id="mapa-full">
+            <!-- <div class="card card-body map"> -->
+              <MapFull :users="users" />
+            <!-- </div> -->
+          </div>
+        </div>
+        <!-- /.col-12 -->
       </div>
-      <!-- /.col-6 -->
     </div>
-    <!-- /.row -->
-  <div class="container">
-     <div class="row">
-       <div class="col-12">
-         <Map :users="users"/>
-       </div>
-       <!-- /.col-12 -->
-     </div>
-     <!-- /.row -->
   </div>
-  <!-- /.container -->
-  </div>
-  <!-- /.container -->
-
 </template>
 
 <script>
-import axios from 'axios';
-import UserList from './UserList.vue';
-import Map from './Map.vue'
+import axios from "axios";
+import UserList from "./UserList.vue";
+import Map from "./Map.vue";
+import MapFull from "./MapFull.vue";
+import Navbar from "./Navbar.vue";
+import firebase from 'firebase'
 
 export default {
-  name: 'User',
-  components:{
+  name: "User",
+  components: {
     UserList,
-    Map
+    Map,
+    MapFull,
+    Navbar
   },
-  data () {
+  data() {
     return {
       users: [],
-      normalIcon: [15,15],
-      largeIcon: [50,50]
-    }
+      normalIcon: [15, 15],
+      largeIcon: [50, 50]
+    };
   },
-  mounted(){
+  mounted() {
     // https://api.openbrewerydb.org/breweries
 
-    axios.get('https://api.openbrewerydb.org/breweries')
-        .then((res) =>{
-         this.users = res.data
-         .map(r =>{
-           r.iconSize = this.normalIcon;
-           return r;
-         });
-        });
+    axios.get("https://api.openbrewerydb.org/breweries").then(res => {
+      this.users = res.data.map(r => {
+        r.iconSize = this.normalIcon;
+        return r;
+      });
+    });
   },
   methods: {
     mouseOverUser: function(i) {
@@ -78,12 +84,20 @@ export default {
     },
     mouseLeftUser: function(i) {
       this.users[i].iconSize = this.normalIcon;
+    },
+    logout(){
+     
+      firebase.auth().signOut().then(() => this.$router.replace('login'));
+    
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.map {
+  height: 100%;
+  position: relative;
+}
 </style>
