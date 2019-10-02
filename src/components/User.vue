@@ -1,47 +1,15 @@
 <template>
   <div>
     <Navbar />
-     <input type="button" value="Cerrar Sesion" class="btn btn-danger" @click="logout">
-    <div class="container">
-      <div class="row mt-5">
-        <div class="col-6">
-          <div class="collapse multi-collapse" id="userList">
-            <div class="card card-body">
-              <UserList
-                @mouse-over-user="mouseOverUser"
-                @mouse-left-user="mouseLeftUser"
-                :users="users"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- /.col-6 -->
 
-        <div class="col-6">
-          <div class="collapse multi-collapse" id="mapa">
-            <div class="card card-body map">
-              <Map :users="users" />
-            </div>
-          </div>
-        </div>
-        <!-- /.col-6 -->
-      </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.container -->
+          <UserList
+            @mouse-over-user="mouseOverUser"
+            @mouse-left-user="mouseLeftUser"
+            :users="users"
+          />
+          
 
-    <div class="container">
-      <div class="row mt-5">
-        <div class="col-12">
-          <div class="collapse multi-collapse" id="mapa-full">
-            <!-- <div class="card card-body map"> -->
-              <MapFull :users="users" />
-            <!-- </div> -->
-          </div>
-        </div>
-        <!-- /.col-12 -->
-      </div>
-    </div>
+    <Map :users= "users"/>
   </div>
 </template>
 
@@ -49,16 +17,14 @@
 import axios from "axios";
 import UserList from "./UserList.vue";
 import Map from "./Map.vue";
-import MapFull from "./MapFull.vue";
 import Navbar from "./Navbar.vue";
-import firebase from 'firebase'
+import firebase from "firebase";
 
 export default {
   name: "User",
   components: {
     UserList,
     Map,
-    MapFull,
     Navbar
   },
   data() {
@@ -85,10 +51,11 @@ export default {
     mouseLeftUser: function(i) {
       this.users[i].iconSize = this.normalIcon;
     },
-    logout(){
-     
-      firebase.auth().signOut().then(() => this.$router.replace('login'));
-    
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => this.$router.replace("login"));
     }
   }
 };
@@ -96,8 +63,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.map {
-  height: 100%;
-  position: relative;
-}
 </style>

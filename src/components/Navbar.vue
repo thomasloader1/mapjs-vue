@@ -1,7 +1,7 @@
 <template>
-  <div class="relative">
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Mapa en Vue</a>
+      <a class="navbar-brand" href="#">Mapue</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,7 +19,7 @@
         </ul>
       </div>
     </nav>
-  </div>
+
 </template>
 
 <script>
