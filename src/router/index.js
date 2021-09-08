@@ -36,6 +36,14 @@ const router = new Router({
             meta: {
                 auth: true
             }
+        },
+        {
+            path: '/map/test',
+            name: 'MapTest',
+            component: Map,
+            meta: {
+                auth: true
+            }
         }
     ]
 
